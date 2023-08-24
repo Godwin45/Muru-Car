@@ -64,7 +64,6 @@ try:
    os.environ["MLFLOW_TRACKING_URI"]="https://dagshub.com/Godwin45/Muru-Car.mlflow"
    os.environ["MLFLOW_TRACKING_USERNAME"]="Godwin45"
    os.environ["MLFLOW_TRACKING_PASSWORD"]="1eaeb42d599213d6a9ab7754a9e2515f5d042e6c"
-   # os.environ['DAGSHUB_TOKEN'] = "f0a0ac483c588c3c561ae0bdf41b55f9bc2dcd48"
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
    data_ingestion = ModelEvaluationTrainingPipeline()
    data_ingestion.main()
