@@ -22,14 +22,14 @@ def training():
 def index():
     if request.method == 'POST':
         try:
-            Engine_rpm =int(request.form['Engine rpm'])
-            Lub_oil_pressure =float(request.form['Lub oil pressure'])
-            Fuel_pressure =float(request.form['Fuel pressure'])
-            Coolant_pressure =float(request.form['Coolant pressure'])
-            lub_oil_temp =float(request.form['lub oil temp'])
-            Coolant_temp =float(request.form['Coolant temp'])
+            engine_rpm =int(request.form['engine_rpm'])
+            lub_oil_pressure =float(request.form['lub_oil_pressure'])
+            fuel_pressure =float(request.form['fuel_pressure'])
+            coolant_pressure =float(request.form['coolant_pressure'])
+            lub_oil_temp =float(request.form['lub_oil_temp'])
+            coolant_temp =float(request.form['coolant_temp'])
      
-            data = [Engine_rpm,Lub_oil_pressure,Fuel_pressure,Coolant_pressure,lub_oil_temp,Coolant_temp]
+            data = [engine_rpm,lub_oil_pressure,fuel_pressure,coolant_pressure,lub_oil_temp,coolant_temp]
             data = np.array(data).reshape(1, 6)
             
             obj = PredictionPipeline()
