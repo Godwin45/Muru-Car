@@ -18,10 +18,10 @@ def training():
     return "Training Successful!" 
 
 
+
 @app.route('/predict',methods=['POST','GET'])
 def index():
     if request.method == 'POST':
-        try:
             engine_rpm =int(request.form['engine_rpm'])
             lub_oil_pressure =float(request.form['lub_oil_pressure'])
             fuel_pressure =float(request.form['fuel_pressure'])
@@ -37,9 +37,6 @@ def index():
 
             return render_template('results.html', prediction = str(predict))
 
-        except Exception as e:
-            print('The Exception message is: ',e)
-            return 'something is wrong'
 
     else:
         return render_template('index.html')
