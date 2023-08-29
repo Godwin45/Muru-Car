@@ -18,6 +18,9 @@ This logistic software is designed to predict engine quality and determine wheth
 
 Modern industries rely heavily on predictive maintenance to minimize downtime and optimize operational efficiency. This logistic software provides an intelligent solution for predicting engine quality. It integrates machine learning into operations and streamlines the development, deployment, and monitoring process.
 
+https://github.com/Godwin45/Muru-Car/assets/71969710/443234f3-0e17-455f-adca-1c3695feee22
+
+
 ## Features
 
 - Engine quality prediction using a machine learning model.
@@ -38,6 +41,8 @@ The software follows a comprehensive ML Ops cycle, which includes the following 
 6. Monitoring and Logging: Continuously monitor the deployed model's performance.
 7. Model Update: Periodically update the model with new data and retrain as needed.
 
+https://github.com/Godwin45/Muru-Car/assets/71969710/663e8ee4-b70f-4418-beb6-298ae03849c1
+
 ## Getting Started
 
 To get started, follow these steps:
@@ -52,7 +57,7 @@ To get started, follow these steps:
 ## Usage
 
 1. Run the software using `python app.py` or `flask run`.
-2. Access the software via the provided URL (e.g., http://localhost:5000).
+2. Access the software via the provided URL (e.g., http://localhost:127.0.0.1:8080).
 3. Input engine parameters to obtain predictions for engine quality.
 
 ## Deployment
@@ -60,7 +65,7 @@ To get started, follow these steps:
 ### AWS with Docker Container
 
 1. Build the Docker image using `docker build -t engine-prediction .`.
-2. Deploy the image to an AWS container service (ECS, EKS, etc.).
+2. Deploy the image to an AWS container service (EC2, ECR, IAM.).
 3. Configure environment variables for MLflow integration and model deployment.
 
 ### HerokuApp
