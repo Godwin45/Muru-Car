@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: muru-logistic-engine-pipeline-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.19, pipelines.kubeflow.org/pipeline_compilation_time: '2023-09-10T17:42:58.539241',
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.19, pipelines.kubeflow.org/pipeline_compilation_time: '2023-09-10T21:34:58.520065',
     pipelines.kubeflow.org/pipeline_spec: '{"description": "A  pipeline that performs
       Logistic Engine pipeline", "inputs": [{"name": "data_path", "type": "String"}],
       "name": "Muru Logistic Engine Pipeline"}'}
