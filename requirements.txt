@@ -18,5 +18,9 @@ Flask
 Flask-Cors
 catboost
 xgboost
+kfp==1.8.19
+kfp-pipeline-spec==0.1.16
+kfp-server-api==1.8.5
+kubernetes==19.15.0
 
--e .
+# -e .

@@ -1,0 +1,373 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: muru-logistic-engine-pipeline-
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.19, pipelines.kubeflow.org/pipeline_compilation_time: '2023-09-10T17:42:58.539241',
+    pipelines.kubeflow.org/pipeline_spec: '{"description": "A  pipeline that performs
+      Logistic Engine pipeline", "inputs": [{"name": "data_path", "type": "String"}],
+      "name": "Muru Logistic Engine Pipeline"}'}
+  labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.8.19}
+spec:
+  entrypoint: muru-logistic-engine-pipeline
+  templates:
+  - name: datacleaningpipeline
+    container:
+      args: []
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'pandas' 'numpy' 'scikit-learn' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+        -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn'
+        --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        import argparse
+        _parser = argparse.ArgumentParser(prog='DataCleaningPipeline', description='')
+        _parsed_args = vars(_parser.parse_args())
+
+        _outputs = DataCleaningPipeline(**_parsed_args)
+      image: python:3.8
+      volumeMounts:
+      - {mountPath: '{{inputs.parameters.data_path}}', name: t-vol}
+    inputs:
+      parameters:
+      - {name: data_path}
+      - {name: t-vol-name}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.19
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": [], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''pandas'' ''numpy'' ''scikit-learn''
+          || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''pandas'' ''numpy'' ''scikit-learn'' --user) && \"$0\" \"$@\"", "sh", "-ec",
+          "program_path=$(mktemp)\nprintf \"%s\" \"$0\" > \"$program_path\"\npython3
+          -u \"$program_path\" \"$@\"\n", "import argparse\n_parser = argparse.ArgumentParser(prog=''DataCleaningPipeline'',
+          description='''')\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = DataCleaningPipeline(**_parsed_args)\n"], "image": "python:3.8"}}, "name":
+          "DataCleaningPipeline"}', pipelines.kubeflow.org/component_ref: '{}'}
+    volumes:
+    - name: t-vol
+      persistentVolumeClaim: {claimName: '{{inputs.parameters.t-vol-name}}'}
+  - name: dataingestiontrainingpipeline
+    container:
+      args: []
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'pandas' 'numpy' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install
+        --quiet --no-warn-script-location 'pandas' 'numpy' --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        import argparse
+        _parser = argparse.ArgumentParser(prog='DataIngestionTrainingPipeline', description='')
+        _parsed_args = vars(_parser.parse_args())
+
+        _outputs = DataIngestionTrainingPipeline(**_parsed_args)
+      image: python:3.8
+      volumeMounts:
+      - {mountPath: '{{inputs.parameters.data_path}}', name: t-vol}
+    inputs:
+      parameters:
+      - {name: data_path}
+      - {name: t-vol-name}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.19
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": [], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''pandas'' ''numpy'' ||
+          PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''pandas'' ''numpy'' --user) && \"$0\" \"$@\"", "sh", "-ec", "program_path=$(mktemp)\nprintf
+          \"%s\" \"$0\" > \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n",
+          "import argparse\n_parser = argparse.ArgumentParser(prog=''DataIngestionTrainingPipeline'',
+          description='''')\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = DataIngestionTrainingPipeline(**_parsed_args)\n"], "image": "python:3.8"}},
+          "name": "DataIngestionTrainingPipeline"}', pipelines.kubeflow.org/component_ref: '{}'}
+    volumes:
+    - name: t-vol
+      persistentVolumeClaim: {claimName: '{{inputs.parameters.t-vol-name}}'}
+  - name: datatransformationtrainingpipeline
+    container:
+      args: []
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'pandas' 'numpy' 'scikit-learn' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+        -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn'
+        --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        import argparse
+        _parser = argparse.ArgumentParser(prog='DataTransformationTrainingPipeline', description='')
+        _parsed_args = vars(_parser.parse_args())
+
+        _outputs = DataTransformationTrainingPipeline(**_parsed_args)
+      image: python:3.8
+      volumeMounts:
+      - {mountPath: '{{inputs.parameters.data_path}}', name: t-vol}
+    inputs:
+      parameters:
+      - {name: data_path}
+      - {name: t-vol-name}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.19
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": [], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''pandas'' ''numpy'' ''scikit-learn''
+          || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''pandas'' ''numpy'' ''scikit-learn'' --user) && \"$0\" \"$@\"", "sh", "-ec",
+          "program_path=$(mktemp)\nprintf \"%s\" \"$0\" > \"$program_path\"\npython3
+          -u \"$program_path\" \"$@\"\n", "import argparse\n_parser = argparse.ArgumentParser(prog=''DataTransformationTrainingPipeline'',
+          description='''')\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = DataTransformationTrainingPipeline(**_parsed_args)\n"], "image": "python:3.8"}},
+          "name": "DataTransformationTrainingPipeline"}', pipelines.kubeflow.org/component_ref: '{}'}
+    volumes:
+    - name: t-vol
+      persistentVolumeClaim: {claimName: '{{inputs.parameters.t-vol-name}}'}
+  - name: datavalidationtrainingpipeline
+    container:
+      args: []
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'pandas' 'numpy' 'scikit-learn' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+        -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn'
+        --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        import argparse
+        _parser = argparse.ArgumentParser(prog='DataValidationTrainingPipeline', description='')
+        _parsed_args = vars(_parser.parse_args())
+
+        _outputs = DataValidationTrainingPipeline(**_parsed_args)
+      image: python:3.8
+      volumeMounts:
+      - {mountPath: '{{inputs.parameters.data_path}}', name: t-vol}
+    inputs:
+      parameters:
+      - {name: data_path}
+      - {name: t-vol-name}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.19
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": [], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''pandas'' ''numpy'' ''scikit-learn''
+          || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''pandas'' ''numpy'' ''scikit-learn'' --user) && \"$0\" \"$@\"", "sh", "-ec",
+          "program_path=$(mktemp)\nprintf \"%s\" \"$0\" > \"$program_path\"\npython3
+          -u \"$program_path\" \"$@\"\n", "import argparse\n_parser = argparse.ArgumentParser(prog=''DataValidationTrainingPipeline'',
+          description='''')\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = DataValidationTrainingPipeline(**_parsed_args)\n"], "image": "python:3.8"}},
+          "name": "DataValidationTrainingPipeline"}', pipelines.kubeflow.org/component_ref: '{}'}
+    volumes:
+    - name: t-vol
+      persistentVolumeClaim: {claimName: '{{inputs.parameters.t-vol-name}}'}
+  - name: modelevaluationtrainingpipeline
+    container:
+      args: []
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'pandas' 'numpy' 'scikit-learn' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+        -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn'
+        --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        import argparse
+        _parser = argparse.ArgumentParser(prog='ModelEvaluationTrainingPipeline', description='')
+        _parsed_args = vars(_parser.parse_args())
+
+        _outputs = ModelEvaluationTrainingPipeline(**_parsed_args)
+      image: python:3.8
+      volumeMounts:
+      - {mountPath: '{{inputs.parameters.data_path}}', name: t-vol}
+    inputs:
+      parameters:
+      - {name: data_path}
+      - {name: t-vol-name}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.19
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": [], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''pandas'' ''numpy'' ''scikit-learn''
+          || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''pandas'' ''numpy'' ''scikit-learn'' --user) && \"$0\" \"$@\"", "sh", "-ec",
+          "program_path=$(mktemp)\nprintf \"%s\" \"$0\" > \"$program_path\"\npython3
+          -u \"$program_path\" \"$@\"\n", "import argparse\n_parser = argparse.ArgumentParser(prog=''ModelEvaluationTrainingPipeline'',
+          description='''')\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = ModelEvaluationTrainingPipeline(**_parsed_args)\n"], "image": "python:3.8"}},
+          "name": "ModelEvaluationTrainingPipeline"}', pipelines.kubeflow.org/component_ref: '{}'}
+    volumes:
+    - name: t-vol
+      persistentVolumeClaim: {claimName: '{{inputs.parameters.t-vol-name}}'}
+  - name: modeltrainertrainingpipeline
+    container:
+      args: []
+      command:
+      - sh
+      - -c
+      - (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+        'pandas' 'numpy' 'scikit-learn' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+        -m pip install --quiet --no-warn-script-location 'pandas' 'numpy' 'scikit-learn'
+        --user) && "$0" "$@"
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        import argparse
+        _parser = argparse.ArgumentParser(prog='ModelTrainerTrainingPipeline', description='')
+        _parsed_args = vars(_parser.parse_args())
+
+        _outputs = ModelTrainerTrainingPipeline(**_parsed_args)
+      image: python:3.8
+      volumeMounts:
+      - {mountPath: '{{inputs.parameters.data_path}}', name: t-vol}
+    inputs:
+      parameters:
+      - {name: data_path}
+      - {name: t-vol-name}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.19
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": [], "command": ["sh", "-c", "(PIP_DISABLE_PIP_VERSION_CHECK=1 python3
+          -m pip install --quiet --no-warn-script-location ''pandas'' ''numpy'' ''scikit-learn''
+          || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet --no-warn-script-location
+          ''pandas'' ''numpy'' ''scikit-learn'' --user) && \"$0\" \"$@\"", "sh", "-ec",
+          "program_path=$(mktemp)\nprintf \"%s\" \"$0\" > \"$program_path\"\npython3
+          -u \"$program_path\" \"$@\"\n", "import argparse\n_parser = argparse.ArgumentParser(prog=''ModelTrainerTrainingPipeline'',
+          description='''')\n_parsed_args = vars(_parser.parse_args())\n\n_outputs
+          = ModelTrainerTrainingPipeline(**_parsed_args)\n"], "image": "python:3.8"}},
+          "name": "ModelTrainerTrainingPipeline"}', pipelines.kubeflow.org/component_ref: '{}'}
+    volumes:
+    - name: t-vol
+      persistentVolumeClaim: {claimName: '{{inputs.parameters.t-vol-name}}'}
+  - name: muru-logistic-engine-pipeline
+    inputs:
+      parameters:
+      - {name: data_path}
+    dag:
+      tasks:
+      - name: datacleaningpipeline
+        template: datacleaningpipeline
+        dependencies: [dataingestiontrainingpipeline, t-vol]
+        arguments:
+          parameters:
+          - {name: data_path, value: '{{inputs.parameters.data_path}}'}
+          - {name: t-vol-name, value: '{{tasks.t-vol.outputs.parameters.t-vol-name}}'}
+      - name: dataingestiontrainingpipeline
+        template: dataingestiontrainingpipeline
+        dependencies: [t-vol]
+        arguments:
+          parameters:
+          - {name: data_path, value: '{{inputs.parameters.data_path}}'}
+          - {name: t-vol-name, value: '{{tasks.t-vol.outputs.parameters.t-vol-name}}'}
+      - name: datatransformationtrainingpipeline
+        template: datatransformationtrainingpipeline
+        dependencies: [datavalidationtrainingpipeline, t-vol]
+        arguments:
+          parameters:
+          - {name: data_path, value: '{{inputs.parameters.data_path}}'}
+          - {name: t-vol-name, value: '{{tasks.t-vol.outputs.parameters.t-vol-name}}'}
+      - name: datavalidationtrainingpipeline
+        template: datavalidationtrainingpipeline
+        dependencies: [datacleaningpipeline, t-vol]
+        arguments:
+          parameters:
+          - {name: data_path, value: '{{inputs.parameters.data_path}}'}
+          - {name: t-vol-name, value: '{{tasks.t-vol.outputs.parameters.t-vol-name}}'}
+      - name: modelevaluationtrainingpipeline
+        template: modelevaluationtrainingpipeline
+        dependencies: [modeltrainertrainingpipeline, t-vol]
+        arguments:
+          parameters:
+          - {name: data_path, value: '{{inputs.parameters.data_path}}'}
+          - {name: t-vol-name, value: '{{tasks.t-vol.outputs.parameters.t-vol-name}}'}
+      - name: modeltrainertrainingpipeline
+        template: modeltrainertrainingpipeline
+        dependencies: [datatransformationtrainingpipeline, t-vol]
+        arguments:
+          parameters:
+          - {name: data_path, value: '{{inputs.parameters.data_path}}'}
+          - {name: t-vol-name, value: '{{tasks.t-vol.outputs.parameters.t-vol-name}}'}
+      - {name: t-vol, template: t-vol}
+  - name: t-vol
+    resource:
+      action: create
+      manifest: |
+        apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          name: '{{workflow.name}}-t-vol'
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+    outputs:
+      parameters:
+      - name: t-vol-manifest
+        valueFrom: {jsonPath: '{}'}
+      - name: t-vol-name
+        valueFrom: {jsonPath: '{.metadata.name}'}
+      - name: t-vol-size
+        valueFrom: {jsonPath: '{.status.capacity.storage}'}
+    metadata:
+      labels:
+        pipelines.kubeflow.org/kfp_sdk_version: 1.8.19
+        pipelines.kubeflow.org/pipeline-sdk-type: kfp
+        pipelines.kubeflow.org/enable_caching: "true"
+  arguments:
+    parameters:
+    - {name: data_path}
+  serviceAccountName: pipeline-runner
